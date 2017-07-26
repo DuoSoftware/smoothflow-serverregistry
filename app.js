@@ -111,6 +111,6 @@ server.post('/webhook/publishDocker/', function (req, res, next) {
 
 
 server.listen(config.host.port, function () {
-    console.log("ccBilling Client is running on %d", config.host.port );
+    console.log("Server Registry Client is running on %d", config.host.port );
 
 });

@@ -113,9 +113,9 @@ server.post('/webhook/publish', function (req, res, next) {
      echo "Tenant":${11}
      */
 
-    /*var output = sh.exec('wget http://dev.smoothflow.io/engine/'+req.body.ExecLocation,{silent:true}).stdout;
-     console.log(output);
-     console.log("trialend Request Received");*/
+    var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+req.body.ExecLocation +'-p /home/pubexec' ,{silent:true}).stdout;
+    console.log(output);
+    console.log("trialend Request Received");
     res.send({"success": true});
     return next();
 

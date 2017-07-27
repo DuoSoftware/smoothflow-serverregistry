@@ -1,9 +1,12 @@
 var config = require('config');
 var restify = require('restify');
 var sh = require('shelljs');
+//console.log('SUPPRESS_NO_CONFIG_WARNING: ' + config.util.getEnv('SUPPRESS_NO_CONFIG_WARNING'));
+
 
 var Authorization = require('./Core/Authorization');
 var CEBconnctor = require('./Core/CEBconnctor');
+
 
 
 
@@ -36,87 +39,95 @@ server.opts(/.*/, function (req,res,next) {
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
-//server.use(restify.authorizationParser());
-
-
-
 /*
-server.use(function (req, res, next) {
-    /!**
-     * @param req          request object.
-     * @param req.headers   headers sent in request.
-     * @param req.headers.tenantid   tenantId of user
-     * @param req.headers.tenantId   tenantId of user
-     * @param req.headers.securitytoken   securityToken of user
-     * @param req.headers.securityToken   securityToken of user
-     *!/
+ server.use(restify.authorizationParser());
 
 
-    if(req.url.substring(0,9)==='/webhook/'){
-        next();
-    }
-    else{
-        var token, tenantId;
 
-        if(req.headers.securitytoken) token = req.headers.securitytoken;
-        else if (req.headers.securityToken) token = req.headers.securityToken;
-
-        if(req.headers.tenantid) tenantId = req.headers.tenantid;
-        else if (req.headers.tenantId) tenantId = req.headers.tenantId;
-        else tenantId = null;
-
-        if(token)
-            Authorization.validate(tenantId, token, function (found){
-                if(found.response === 'succeeded'){
-                    next();
-                }
-                else{
-                    next(new restify.NotAuthorizedError("Invalid Security Token"));
-                }
-            });
-    }
+ server.use(function (req, res, next) {
+ /!**
+ * @param req          request object.
+ * @param req.headers   headers sent in request.
+ * @param req.headers.tenantid   tenantId of user
+ * @param req.headers.tenantId   tenantId of user
+ * @param req.headers.securitytoken   securityToken of user
+ * @param req.headers.securityToken   securityToken of user
+ *!/
 
 
-});
-*/
+ if(req.url.substring(0,9)==='/webhook/'){
+ next();
+ }
+ else{
+ var token, tenantId;
+
+ if(req.headers.securitytoken) token = req.headers.securitytoken;
+ else if (req.headers.securityToken) token = req.headers.securityToken;
+
+ if(req.headers.tenantid) tenantId = req.headers.tenantid;
+ else if (req.headers.tenantId) tenantId = req.headers.tenantId;
+ else tenantId = null;
+
+ if(token)
+ Authorization.validate(tenantId, token, function (found){
+ if(found.response === 'succeeded'){
+ next();
+ }
+ else{
+ next(new restify.NotAuthorizedError("Invalid Security Token"));
+ }
+ });
+ }
 
 
-server.get('/test/', function (req, res, next) {
+ });
+ */
 
-    console.log('Test Worked');
+
+
+server.get('/test', function (req, res, next) {
+
+    console.log("Test Received");
+
     res.send({"success": true});
     return next();
 
+
 });
 
-server.post('/webhook/publishDocker/', function (req, res, next) {
+server.post('/webhook/publish', function (req, res, next) {
 
     console.log(req.body);
 
 
-/*
-    echo "DockerName : ":$1
-    echo "Tag : ":$2
-    echo "FolderName : ":$3
-    echo "ExecLocation : ":$4
-    echo "Ports":$5:$6
-    echo "ProcessName ":$7
-    echo "RAM":$8
-    echo "CPU":$9
-    echo "SecurityToken ":${10}
-    echo "Tenant":${11}
-*/
+    /*
+     echo "DockerName : ":$1
+     echo "Tag : ":$2
+     echo "FolderName : ":$3
+     echo "ExecLocation : ":$4
+     echo "Ports":$5:$6
+     echo "ProcessName ":$7
+     echo "RAM":$8
+     echo "CPU":$9
+     echo "SecurityToken ":${10}
+     echo "Tenant":${11}
+     */
 
     /*var output = sh.exec('wget http://dev.smoothflow.io/engine/'+req.body.ExecLocation,{silent:true}).stdout;
-    console.log(output);
-    console.log("trialend Request Received");*/
+     console.log(output);
+     console.log("trialend Request Received");*/
     res.send({"success": true});
     return next();
+
 
 });
 
 
 server.listen(config.host.port, function () {
-    console.log("Server Registry Client is running on %d", config.host.port );
+
+    console.log("Server Registry is running on %d", config.host.port );
 
 });
+
+
+

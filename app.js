@@ -81,7 +81,13 @@ server.use(function (req, res, next) {
 */
 
 
+server.get('/test/', function (req, res, next) {
 
+    console.log('Test Worked');
+    res.send({"success": true});
+    return next();
+
+});
 
 server.post('/webhook/publishDocker/', function (req, res, next) {
 

@@ -113,8 +113,30 @@ server.post('/webhook/publish', function (req, res, next) {
      echo "Tenant":${11}
      */
 
-    var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+req.body.ExecLocation +'-p /home/pubexec' ,{silent:true}).stdout;
+    /*
+     sudo cp $4 $path/PublishedDockers/$3/
+     sudo cp /var/www/html/engine/DockerRelatedFiles/Dockerfile $path/PublishedDockers/$3/
+     sudo docker build -t $1:$2 .
+     echo "docker run -d --memory=$8 --cpus=$9 -p $5:$6 $1:$2 $7"
+     sudo docker run -d --memory=$8 --cpus=$9 -p $5:$6 $1:$2 $7
+
+     newport=$(($5 + 1))
+
+     cd /var/www/html/engine/
+     echo "./runner 10.240.0.6 $1 $newport $1_proxy ${10} ${11}"
+     sudo ./runner 10.240.0.6 $1 $newport $1_proxy ${10} ${11}
+
+     echo "Publishing to Docker is complete!"
+    */
+
+
+    var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+req.body.ExecLocation +' -p /home/sflow/PublishedDockers/'+req.body.FolderName ,{silent:true}).stdout;
     console.log(output);
+    output = sh.exec('./home/sflow/smooth.sh '+ req.body.DockerName +' '+ req.body.Tag +' '+ req.body.FolderName +' '+'/home/sflow/PublishedDockers/'+ req.body.FolderName +' '+ req.body.Ports +' '+ req.body.ProcessName +' '+ req.body.RAM +' '+ req.body.CPU +' '+ req.body.SecurityToken +' '+ req.body.Tenant ,{silent:true}).stdout;
+
+
+
+
     console.log("trialend Request Received");
     res.send({"success": true});
     return next();

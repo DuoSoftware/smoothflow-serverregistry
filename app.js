@@ -132,7 +132,7 @@ server.post('/webhook/publish', function (req, res, next) {
     var execloc = req.body.ExecLocation;
     execloc = execloc.replace('/var/www/html/engine/', '');
 
-    console.log('wget  http://dev.smoothflow.io/engine/'+execloc +' -p /home/sflow/PublishedDockers/'+req.body.FolderName);
+    console.log('wget  http://dev.smoothflow.io/engine/'+execloc +' -P /home/sflow/PublishedDockers/'+req.body.FolderName);
 
     var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+execloc +' -p /home/sflow/PublishedDockers/'+req.body.FolderName ,{silent:true}).stdout;
     console.log(output);

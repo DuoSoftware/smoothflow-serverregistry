@@ -129,10 +129,12 @@ server.post('/webhook/publish', function (req, res, next) {
      echo "Publishing to Docker is complete!"
     */
 
+    var execloc = req.body.ExecLocation;
+    execloc = execloc.replace('/var/www/html/engine/', '');
 
-    var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+req.body.ExecLocation +' -p /home/sflow/PublishedDockers/'+req.body.FolderName ,{silent:true}).stdout;
+    var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+execloc +' -p /home/sflow/PublishedDockers/'+req.body.FolderName ,{silent:true}).stdout;
     console.log(output);
-    output = sh.exec('./home/sflow/smooth.sh '+ req.body.DockerName +' '+ req.body.Tag +' '+ req.body.FolderName +' '+'/home/sflow/PublishedDockers/'+ req.body.FolderName +' '+ req.body.Ports +' '+ req.body.ProcessName +' '+ req.body.RAM +' '+ req.body.CPU +' '+ req.body.SecurityToken +' '+ req.body.Tenant ,{silent:true}).stdout;
+    output = sh.exec('./home/sflow/smooth.sh '+ req.body.DockerName +' '+ req.body.Tag +' '+ req.body.FolderName +' '+'/home/sflow/PublishedDockers/'+ req.body.FolderName +' '+ req.body.PortA +' '+ req.body.PortB +' '+ req.body.ProcessName +' '+ req.body.RAM +' '+ req.body.CPU +' '+ req.body.SecurityToken +' '+ req.body.Tenant ,{silent:true}).stdout;
 
 
 

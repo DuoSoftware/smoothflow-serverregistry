@@ -134,7 +134,7 @@ server.post('/webhook/publish', function (req, res, next) {
 
     console.log('wget  http://dev.smoothflow.io/engine/'+execloc +' -P /home/sflow/PublishedDockers/'+req.body.FolderName);
 
-    var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+execloc +' -P /home/sflow/PublishedDockers/'+req.body.FolderName ,{silent:false}).stdout;
+    var output = sh.exec('wget  http://dev.smoothflow.io/engine/'+execloc +' -P /home/sflow/PublishedDockers/'+req.body.FolderName+'/'+req.body.Tenant ,{silent:false}).stdout;
     console.log(output);
     output = sh.exec('/home/sflow/smooth.sh '+ req.body.DockerName +' '+ req.body.Tag +' '+ req.body.FolderName +' '+'/home/sflow/PublishedDockers/'+ req.body.FolderName +' '+ req.body.PortA +' '+ req.body.PortB +' '+ req.body.ProcessName +' '+ req.body.RAM +' '+ req.body.CPU +' '+ req.body.SecurityToken +' '+ req.body.Tenant ,{silent:false}).stdout;
     console.log(output);

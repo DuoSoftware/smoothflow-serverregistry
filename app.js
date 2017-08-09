@@ -97,7 +97,7 @@ server.get('/test', function (req, res, next) {
 
 server.post('/webhook/publish', function (req, res, next) {
 
-    console.log(req.body);
+    //console.log(req.body);
 
 
     /*

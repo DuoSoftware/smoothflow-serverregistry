@@ -120,7 +120,7 @@ server.post('/webhook/publish', function (req, res, next) {
 
     output = sh.exec('wget  http://dev.smoothflow.io/engine/'+execloc +' -P /home/sflow/PublishedDockers/'+req.body.FolderName+'/'+req.body.Tenant ,{silent:true}).stdout;
 
-    output = sh.exec('/home/sflow/smooth.sh '+ req.body.DockerName +' '+ req.body.Tag +' '+ req.body.FolderName +' '+'/home/sflow/PublishedDockers/'+ req.body.FolderName +' '+ req.body.PortA +' '+ req.body.PortB +' '+ req.body.ProcessName +' '+ req.body.RAM +' '+ req.body.CPU +' '+ req.body.SecurityToken +' '+ req.body.Tenant ,{silent:true}).stdout;
+    output = sh.exec('/home/sflow/smooth.sh '+ req.body.DockerName +' '+ req.body.Tag +' '+ req.body.FolderName +' '+'/home/sflow/PublishedDockers/'+ req.body.FolderName +' '+ req.body.PortA +' '+ req.body.PortB +' '+ req.body.ProcessName +' '+ req.body.RAM +' '+ req.body.CPU +' '+ req.body.SecurityToken +' '+ req.body.Tenant ,{silent:true});
 
     console.log("Publish Request Received");
     res.send({"success": true});

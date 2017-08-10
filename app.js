@@ -4,12 +4,9 @@ var sh = require('shelljs');
 //console.log('SUPPRESS_NO_CONFIG_WARNING: ' + config.util.getEnv('SUPPRESS_NO_CONFIG_WARNING'));
 
 
-var Authorization = require('./Core/Authorization');
+//var Authorization = require('./Core/Authorization');
+//DO NOT REMOVE : intialization of connection
 var CEBconnctor = require('./Core/CEBconnctor');
-
-
-
-
 
 
 process.on('uncaughtException', function (err) {
@@ -98,8 +95,6 @@ server.get('/test', function (req, res, next) {
 server.post('/webhook/publish', function (req, res, next) {
 
     //console.log(req.body);
-
-
     /*
      echo "DockerName : ":$1
      echo "Tag : ":$2
@@ -113,17 +108,35 @@ server.post('/webhook/publish', function (req, res, next) {
      echo "Tenant":${11}
      */
 
+    /**
+     * @param req.body          Data from app
+     * @param req.body.DockerName         Status param of auth object false if invalid
+     * @param req.body.Tag         Status param of auth object false if invalid
+     * @param req.body.FolderName
+     * @param req.body.ExecLocation
+     * @param req.body.PortA
+     * @param req.body.PortB
+     * @param req.body.ProcessName
+     * @param req.body.RAM
+     * @param req.body.CPU
+     * @param req.body.SecurityToken
+     * @param req.body.Tenant
+     */
+
     var execloc = req.body.ExecLocation;
     execloc = execloc.replace('/var/www/html/engine/', '');
 
-    var output = sh.exec('rm -r /home/sflow/PublishedDockers/' + req.body.FolderName + '/' + req.body.Tenant + '/' +  req.body.DockerName,{silent:true}).stdout;
+    var output;
 
+    output = sh.exec('rm -r /home/sflow/PublishedDockers/' + req.body.FolderName + '/' + req.body.Tenant + '/' +  req.body.DockerName,{silent:true}).stdout;
+    console.log(output);
     output = sh.exec('wget  http://dev.smoothflow.io/engine/'+execloc +' -P /home/sflow/PublishedDockers/'+req.body.FolderName+'/'+req.body.Tenant ,{silent:true}).stdout;
-
+    console.log(output);
     output = sh.exec('/home/sflow/smooth.sh '+ req.body.DockerName +' '+ req.body.Tag +' '+ req.body.FolderName +' '+'/home/sflow/PublishedDockers/'+ req.body.FolderName +' '+ req.body.PortA +' '+ req.body.PortB +' '+ req.body.ProcessName +' '+ req.body.RAM +' '+ req.body.CPU +' '+ req.body.SecurityToken +' '+ req.body.Tenant ,{silent:false}).stdout;
-
+    console.log(output);
     console.log("Publish Request Received");
     res.send({"success": true});
+    return next();
 
 });
 

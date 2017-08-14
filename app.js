@@ -140,6 +140,22 @@ server.post('/webhook/publish', function (req, res, next) {
 
 });
 
+server.post('/server/:vendor/:region', function (req, res, next) {
+
+    if(req.params.vendor && req.params.region){
+        var vendor =  req.params.vendor;
+        var region = req.params.region;
+
+        var ip = config.servers[vendor][region];
+
+    }else{
+        res.send({"success": true});
+    }
+
+    return next();
+
+
+});
 
 server.listen(config.host.port, function () {
 

@@ -1,0 +1,18 @@
+#!/bin/bash
+echo "Runner file executing started."
+echo ""
+echo "IP : ":$1
+echo "Docker Name : ":$2
+echo "New Port : ":$3
+echo "Proxy ":$4
+echo "SecuriyToken ":$5
+echo "Tenant ":$6
+
+
+cd /home/sflow/NGINXRelatedFiles/
+sudo docker build -t $4 .;
+#curl http://$1:4500/addtonginxplus/$2/$3/10.240.0.2
+curl -H "Content-Type: application/json" -X POST -d '{"process": "'$2'","port": "'$3'","ip": "52.160.101.4","securityToken": "'$5'","userName": "'$6'"}' https://nginxproxymaker.plus.smoothflow.io/addtonginxplus
+sudo docker run -d --name=$4 -e "CONSUL_URL="$1":8500" -e "SERVICE="$2 -e "PORT="$3 -p $3:$3 $4
+echo "Proxy Published"
+#curl http://$1:4500/removefromnginxplus/$2
